@@ -1,0 +1,129 @@
+return {
+  -- LSP setup with mason
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    config = function()
+      -- Mason setup
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "pyright",
+          "bashls",
+          "jsonls",
+        },
+        automatic_installation = true,
+      })
+
+      -- Keymaps for LSP
+      local on_attach = function(_, bufnr)
+        local map = function(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+        end
+
+        map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
+        map("n", "K", vim.lsp.buf.hover, "Hover Info")
+        map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
+        map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
+        map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+        map("n", "gr", vim.lsp.buf.references, "References")
+        map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+        map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
+        map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+      end
+
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lspconfig = require("lspconfig")
+
+      local servers = { "lua_ls", "pyright", "bashls", "jsonls" }
+
+      for _, server in ipairs(servers) do
+        lspconfig[server].setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+      end
+    end,
+  },
+
+  -- TypeScript/JavaScript support
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      on_attach = function(_, bufnr)
+        local map = function(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+        end
+
+        map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
+        map("n", "K", vim.lsp.buf.hover, "Hover Info")
+        map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
+        map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
+        map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+        map("n", "gr", vim.lsp.buf.references, "References")
+        map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+        map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
+        map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+      end,
+    },
+  },
+
+  -- Completion setup
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+    },
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "path" },
+        }),
+      })
+    end,
+  },
+}
