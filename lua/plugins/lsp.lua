@@ -8,7 +8,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      -- Mason setup
       require("mason").setup()
       require("mason-lspconfig").setup({
         ensure_installed = {
@@ -16,11 +15,11 @@ return {
           "pyright",
           "bashls",
           "jsonls",
+          "tsserver", -- fallback if you disable typescript-tools
         },
         automatic_installation = true,
       })
 
-      -- Keymaps for LSP
       local on_attach = function(_, bufnr)
         local map = function(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
@@ -35,13 +34,19 @@ return {
         map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
         map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
         map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+
+        -- Show function signature as you type
+        require("lsp_signature").on_attach({
+          bind = true,
+          handler_opts = { border = "rounded" },
+          hint_enable = true,
+        }, bufnr)
       end
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
 
       local servers = { "lua_ls", "pyright", "bashls", "jsonls" }
-
       for _, server in ipairs(servers) do
         lspconfig[server].setup({
           on_attach = on_attach,
@@ -51,7 +56,7 @@ return {
     end,
   },
 
-  -- TypeScript/JavaScript support
+  -- TypeScript/JavaScript support with inlay hints
   {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -74,9 +79,31 @@ return {
           map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
           map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
           map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+
+          -- lsp_signature new helper plugin to show snippets
+          require("lsp_signature").on_attach({
+            bind = true,
+            handler_opts = { border = "rounded" },
+          }, bufnr)
         end,
+
+        settings = {
+          expose_as_code_action = "all",
+          tsserver_file_preferences = {
+            includeInlayParameterNameHints = "all",
+            includeInlayFunctionParameterTypeHints = true,
+            includeCompletionsForModuleExports = true,
+          },
+        },
       }
     end,
+  },
+
+  -- Signature Help
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "LspAttach",
+    config = true,
   },
 
   -- Completion setup
@@ -94,7 +121,13 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
+      require("luasnip.loaders.from_vscode").lazy_load() -- auto-load snippets
+
       cmp.setup({
+        completion = {
+          keyword_length = 1,
+          completeopt = "menu,menuone,noinsert",
+        },
         snippet = {
           expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -132,11 +165,9 @@ return {
     end,
   },
 
-  -- Snippets
+  -- Snippet Collection
   {
     "rafamadriz/friendly-snippets",
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
-    end,
+    lazy = true,
   },
 }
