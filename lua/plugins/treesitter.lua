@@ -8,7 +8,7 @@ return {
       "windwp/nvim-ts-autotag",
     },
     opts = {
-      ensure_installed = {
+     ensure_installed = {
         "javascript", "typescript", "tsx", "json", "html", "css", "lua",
         "markdown", "vim", "bash", "python", "yaml", "toml", "dockerfile", "gitignore", "regex"
       },

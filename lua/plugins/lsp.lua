@@ -55,23 +55,28 @@ return {
   {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      on_attach = function(_, bufnr)
-        local map = function(mode, lhs, rhs, desc)
-          vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
-        end
+    opts = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-        map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
-        map("n", "K", vim.lsp.buf.hover, "Hover Info")
-        map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
-        map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
-        map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-        map("n", "gr", vim.lsp.buf.references, "References")
-        map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
-        map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
-        map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
-      end,
-    },
+      return {
+        capabilities = capabilities,
+        on_attach = function(_, bufnr)
+          local map = function(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+          end
+
+          map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
+          map("n", "K", vim.lsp.buf.hover, "Hover Info")
+          map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
+          map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
+          map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+          map("n", "gr", vim.lsp.buf.references, "References")
+          map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+          map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
+          map("n", "<leader>e", vim.diagnostic.open_float, "Show Diagnostic")
+        end,
+      }
+    end,
   },
 
   -- Completion setup
@@ -124,6 +129,14 @@ return {
           { name = "path" },
         }),
       })
+    end,
+  },
+
+  -- Snippets
+  {
+    "rafamadriz/friendly-snippets",
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
 }
