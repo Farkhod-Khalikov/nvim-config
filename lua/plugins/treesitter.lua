@@ -6,8 +6,10 @@ return {
     require("nvim-treesitter.configs").setup({
       ensure_installed = {
         "lua",
-        "javascript",
+        "javascript", 
         "typescript",
+        "tsx",
+        "jsx",
         "python",
         "html",
         "css",
