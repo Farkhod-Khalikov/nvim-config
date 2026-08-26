@@ -9,8 +9,8 @@
 -- "i" <C-o>+command (in insert mode allows to executed single command and go back to insert mode imediately)
 -- <C-i> go to next jumplist position (C-o opposite) :jumps
  
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- vim.g.mapleader = " "
+-- vim.g.maplocalleader = "\\"
 
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
