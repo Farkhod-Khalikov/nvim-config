@@ -14,6 +14,8 @@ vim.opt.smartindent = true            -- Smart indentation
 vim.opt.scrolloff = 8                -- Minimum lines to keep above and below cursor
 vim.opt.signcolumn = 'yes'            -- Always show the sign column
 vim.opt.showmode = true               -- Disable showmode since lualine shows the mode as well
+vim.opt.background = "dark"
+vim.opt.winborder = "rounded"
 
 vim.opt.ignorecase = true             -- Ignore case during search
 vim.opt.smartcase = true              -- Override ignorecase if search contains uppercase
@@ -32,4 +34,4 @@ vim.opt.timeoutlen = 500              -- Time to wait for a mapped sequence to c
 vim.opt.undofile = true               -- Enable persistent undo
 vim.opt.undodir = vim.fn.stdpath("cache") .. "/undo"
 
-vim.opt.filetype = "on"               -- Enable filetype detection
+-- vim.opt.filetype = "on"               -- Enable filetype detection
