@@ -38,4 +38,16 @@ end)
 keymap("n", "<leader>cl", function () -- Check List of diagnostics
   vim.diagnostic.setloclist()
 end)
-
+keymap("n", "K", function()
+  vim.lsp.buf.hover({
+    border = "rounded",
+    close_events = {
+      "CursorMoved",
+      "BufLeave",
+      "WinLeave",
+    },
+  }, opts)
+end)
+keymap("n", "-", "<CMD>Oil<CR>", {
+  desc = "Open parent directory",
+})

@@ -1,4 +1,10 @@
 return {
+  -- grr	References
+  -- gri	Implementation
+  -- grt	Type definition
+  -- grn	Rename
+  -- gra	Code action
+  -- gO	Document symbols
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
 
@@ -40,11 +46,22 @@ return {
 
     -- diable color highlightning
     vim.lsp.document_color.enable(false)
+    vim.lsp.config("eslint", {
+      cmd = { "vscode-eslint-language-server", "--stdio" },
+      filetypes = {
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+      },
+      capabilities = capabilities,
+    })
 
     -- Enable language servers
     vim.lsp.enable("ts_ls")
     vim.lsp.enable("html")
     vim.lsp.enable("pyright")
     vim.lsp.enable("lua_ls")
+    vim.lsp.enable("eslint")
   end,
 }
