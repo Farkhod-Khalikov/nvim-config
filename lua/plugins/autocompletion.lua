@@ -9,7 +9,6 @@ return {
     local cmp = require("cmp")
 
     cmp.setup({
-      -- Do not automatically open completion
       completion = {
         autocomplete = false,
       },

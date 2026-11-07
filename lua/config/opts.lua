@@ -1,4 +1,5 @@
 vim.g.mapleader = " "
+vim.opt.shortmess:append("I") -- remove start screen
 vim.g.maplocalleader = "\\"
 vim.opt.number = true                 -- Show absolute line number
 vim.opt.relativenumber = true         -- Show relative line number

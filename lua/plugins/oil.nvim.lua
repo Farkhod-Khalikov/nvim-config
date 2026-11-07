@@ -11,7 +11,6 @@ return {
     default_file_explorer = true,
 
     columns = {
-      "icon",
     },
 
     view_options = {
