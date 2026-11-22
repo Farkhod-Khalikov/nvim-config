@@ -25,11 +25,3 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- close floating window if you open up netrw
-vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
-  callback = function()
-    if vim.bo.filetype == "netrw" then
-      vim.diagnostic.hide()
-    end
-  end,
-})

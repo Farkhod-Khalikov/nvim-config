@@ -5,7 +5,7 @@ local opts = { noremap = true, silent = true }
 keymap("n", "<leader>q", ":bd<CR>", { desc = "Quit Neovim" })
 keymap("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 keymap("n", "<leader>e", ":Ex<CR>", { desc = "Open File Tree" })
--- keymap("n", "<leader>il", ":edit $MYVIMRC<CR>", { desc = "Edit init.lua" })
+keymap("n", "<leader>il", ":edit $MYVIMRC<CR>", { desc = "Edit init.lua" })
 
 -- normal
 keymap("n", "<leader>h", ":nohlsearch<CR>", { desc = "Clear search highlights" })
