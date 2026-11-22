@@ -24,6 +24,16 @@ return {
         col = 0.5,
       },
 
+      -- Ignore these patterns across file-based pickers
+      file_ignore_patterns = {
+        "node_modules/",
+        "%.git/",
+        "dist/",
+        "build/",
+        "%.next/",
+        "coverage/",
+      },
+
       fzf_opts = {
         ["--ansi"] = "",
         ["--prompt"] = "❯ ",
@@ -31,33 +41,10 @@ return {
 
       files = {
         previewer = true,
-        fd_opts = [[
-          --type f
-          --hidden
-          --exclude .git
-          --exclude node_modules
-          --exclude dist
-          --exclude build
-          --exclude .next
-          --exclude coverage
-        ]],
       },
 
       grep = {
-        rg_opts = [[
-          --column
-          --line-number
-          --no-heading
-          --color=always
-          --smart-case
-          --hidden
-          --glob '!**/.git/**'
-          --glob '!**/node_modules/**'
-          --glob '!**/dist/**'
-          --glob '!**/build/**'
-          --glob '!**/.next/**'
-          --glob '!**/coverage/**'
-        ]],
+        rg_opts = "--column --line-number --no-heading --color=always --smart-case",
         previewer = true,
       },
 
