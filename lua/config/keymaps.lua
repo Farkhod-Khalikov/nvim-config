@@ -1,43 +1,83 @@
+
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- closing current buffer
-keymap("n", "<leader>q", ":bd<CR>", { desc = "Quit Neovim" })
-keymap("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-keymap("n", "<leader>e", ":Ex<CR>", { desc = "Open File Tree" })
-keymap("n", "<leader>il", ":edit $MYVIMRC<CR>", { desc = "Edit init.lua" })
+-- general
+keymap("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+keymap("n", "<leader>e", "<cmd>Ex<cr>", { desc = "Open File Tree" })
+keymap("n", "<leader>il", "<cmd>edit $MYVIMRC<cr>", { desc = "Edit init.lua" })
 
--- normal
-keymap("n", "<leader>h", ":nohlsearch<CR>", { desc = "Clear search highlights" })
-keymap("n", "<S-h>", ":bprevious<CR>", { desc = "Previous buffer"})
-keymap("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer"})
+-- search
+keymap("n", "<leader>nh", "<cmd>nohlsearch<cr>", {
+  desc = "Clear search highlights",
+})
+
+-- splits
+keymap("n", "<leader>sh", "<cmd>split<cr>", {
+  desc = "Horizontal split",
+})
+
+keymap("n", "<leader>sv", "<cmd>vsplit<cr>", {
+  desc = "Vertical split",
+})
+
+keymap("n", "<leader>sx", "<cmd>close<cr>", {
+  desc = "Close current split",
+})
+
+-- split navigation
+keymap("n", "<leader>h", "<C-w>h", { desc = "Move to left split" })
+keymap("n", "<leader>j", "<C-w>j", { desc = "Move to bottom split" })
+keymap("n", "<leader>k", "<C-w>k", { desc = "Move to top split" })
+keymap("n", "<leader>l", "<C-w>l", { desc = "Move to right split" })
+
+-- buffer navigation
+keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
+  desc = "Next buffer",
+})
+
+keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
+  desc = "Previous buffer",
+})
+
+keymap("n", "<leader>q", "<cmd>bdelete<cr>", {
+  desc = "Close buffer",
+})
+
+-- scrolling
 keymap("n", "<C-d>", "<C-d>zz", opts)
 keymap("n", "<C-u>", "<C-u>zz", opts)
 
--- visual
-keymap("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
-keymap("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
+-- visual mode: move selected lines
+keymap("v", "J", ":m '>+1<cr>gv=gv", {
+  desc = "Move line down",
+})
 
+keymap("v", "K", ":m '<-2<cr>gv=gv", {
+  desc = "Move line up",
+})
 
--- lsp
-keymap("n", "<leader>cd", function() -- [C]heck [D]iagnostics
+-- LSP diagnostics
+keymap("n", "<leader>cd", function()
   vim.diagnostic.open_float(nil, {
     focus = false,
     scope = "line",
   })
-end, { desc = "Line diagnostics [Check Diagnostics]" })
+end, { desc = "Show line diagnostics" })
 
 keymap("n", "]d", function()
-  vim.diagnostic.jump({count = 1})
-end)
+  vim.diagnostic.jump({ count = 1 })
+end, { desc = "Next diagnostic" })
 
 keymap("n", "[d", function()
-  vim.diagnostic.jump({count = -1})
-end)
+  vim.diagnostic.jump({ count = -1 })
+end, { desc = "Previous diagnostic" })
 
-keymap("n", "<leader>cl", function () -- Check List of diagnostics
+keymap("n", "<leader>cl", function()
   vim.diagnostic.setloclist()
-end)
+end, { desc = "Diagnostic location list" })
+
+-- LSP hover
 keymap("n", "K", function()
   vim.lsp.buf.hover({
     border = "rounded",
@@ -46,8 +86,27 @@ keymap("n", "K", function()
       "BufLeave",
       "WinLeave",
     },
-  }, opts)
-end)
-keymap("n", "-", "<CMD>Oil<CR>", {
+  })
+end, { desc = "LSP hover" })
+
+-- Oil file explorer
+keymap("n", "-", "<cmd>Oil<cr>", {
   desc = "Open parent directory",
 })
+-- Git hunks navigation
+keymap("n", "]g", function()
+  require("gitsigns").nav_hunk("next")
+end, { desc = "Next Git change" })
+
+keymap("n", "[g", function()
+  require("gitsigns").nav_hunk("prev")
+end, { desc = "Previous Git change" })
+
+
+-- formatting
+keymap("n", "<leader>p", function()
+  require("conform").format({
+    async = true,
+    lsp_format = "fallback",
+  })
+end, { desc = "Format current file" })
