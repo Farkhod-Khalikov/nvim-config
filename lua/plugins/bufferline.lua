@@ -1,4 +1,3 @@
-
 return {
   "akinsho/bufferline.nvim",
 
@@ -9,6 +8,7 @@ return {
       "nvim-mini/mini.icons",
       opts = {},
     },
+    "catppuccin/nvim",
   },
 
   event = "VeryLazy",
@@ -16,7 +16,6 @@ return {
   opts = {
     options = {
       mode = "buffers",
-
       numbers = "none",
 
       -- Filetype icons
@@ -55,9 +54,7 @@ return {
 
       -- Appearance
       separator_style = "thin",
-      indicator = {
-        -- style = "underline",
-      },
+      indicator = {},
 
       max_name_length = 25,
       max_prefix_length = 12,
@@ -76,4 +73,45 @@ return {
       },
     },
   },
+
+  config = function(_, opts)
+    local colors = require("catppuccin.palettes").get_palette("mocha")
+
+    require("bufferline").setup({
+      options = opts.options,
+
+      highlights = {
+        fill = {
+          bg = colors.base,
+        },
+
+        background = {
+          bg = colors.base,
+        },
+
+        buffer_visible = {
+          bg = colors.base,
+        },
+
+        buffer_selected = {
+          bg = colors.mantle,
+        },
+
+        separator = {
+          bg = colors.base,
+          fg = colors.base,
+        },
+
+        separator_visible = {
+          bg = colors.base,
+          fg = colors.base,
+        },
+
+        separator_selected = {
+          bg = colors.mantle,
+          fg = colors.mantle,
+        },
+      },
+    })
+  end,
 }

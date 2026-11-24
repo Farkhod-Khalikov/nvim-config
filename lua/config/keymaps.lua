@@ -26,10 +26,10 @@ keymap("n", "<leader>sx", "<cmd>close<cr>", {
 })
 
 -- split navigation
-keymap("n", "<leader>h", "<C-w>h", { desc = "Move to left split" })
-keymap("n", "<leader>j", "<C-w>j", { desc = "Move to bottom split" })
-keymap("n", "<leader>k", "<C-w>k", { desc = "Move to top split" })
-keymap("n", "<leader>l", "<C-w>l", { desc = "Move to right split" })
+-- keymap("n", "<leader>h", "<C-w>h", { desc = "Move to left split" })
+-- keymap("n", "<leader>j", "<C-w>j", { desc = "Move to bottom split" })
+-- keymap("n", "<leader>k", "<C-w>k", { desc = "Move to top split" })
+-- keymap("n", "<leader>l", "<C-w>l", { desc = "Move to right split" })
 
 -- buffer navigation
 keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
@@ -40,7 +40,7 @@ keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
   desc = "Previous buffer",
 })
 
-keymap("n", "<leader>q", "<cmd>bdelete<cr>", {
+keymap("n", "<leader>bd", "<cmd>bdelete<cr>", {
   desc = "Close buffer",
 })
 
@@ -90,7 +90,7 @@ keymap("n", "K", function()
 end, { desc = "LSP hover" })
 
 -- Oil file explorer
-keymap("n", "-", "<cmd>Oil<cr>", {
+keymap("n", "<leader>pe", "<cmd>Oil<cr>", {
   desc = "Open parent directory",
 })
 -- Git hunks navigation
@@ -104,7 +104,7 @@ end, { desc = "Previous Git change" })
 
 
 -- formatting
-keymap("n", "<leader>p", function()
+keymap("n", "<leader>pf", function()
   require("conform").format({
     async = true,
     lsp_format = "fallback",
