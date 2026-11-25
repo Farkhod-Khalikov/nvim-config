@@ -32,11 +32,19 @@ keymap("n", "<leader>sx", "<cmd>close<cr>", {
 -- keymap("n", "<leader>l", "<C-w>l", { desc = "Move to right split" })
 
 -- buffer navigation
-keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
+-- keymap("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", {
+--   desc = "Next buffer",
+-- })
+--
+-- keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
+--   desc = "Previous buffer",
+-- })
+
+keymap("n", "<S-l>", "<cmd>bn<cr>", {
   desc = "Next buffer",
 })
 
-keymap("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", {
+keymap("n", "<S-h>", "<cmd>bp<cr>", {
   desc = "Previous buffer",
 })
 
@@ -80,7 +88,7 @@ end, { desc = "Diagnostic location list" })
 -- LSP hover
 keymap("n", "K", function()
   vim.lsp.buf.hover({
-    border = "rounded",
+    -- border = "single",
     close_events = {
       "CursorMoved",
       "BufLeave",
