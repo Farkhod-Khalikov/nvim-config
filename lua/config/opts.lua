@@ -15,9 +15,9 @@ vim.opt.smartindent = true            -- Smart indentation
 vim.opt.scrolloff = 8                -- Minimum lines to keep above and below cursor
 vim.opt.signcolumn = 'yes'            -- Always show the sign column
 -- vim.opt.cmdheight = 0                 -- removin commandline since i add lualine
-vim.opt.showmode = false               -- Disable showmode since lualine shows the mode as well
+vim.opt.showmode = true               -- Disable showmode since lualine shows the mode as well
 vim.opt.background = "dark"
-vim.opt.winborder = "shadow"          -- none/single/double/solid/shadow
+vim.opt.winborder = "solid"          -- none/single/double/solid/shadow
 
 vim.opt.ignorecase = true             -- Ignore case during search
 vim.opt.smartcase = true              -- Override ignorecase if search contains uppercase

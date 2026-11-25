@@ -9,9 +9,9 @@ return {
     local cmp = require("cmp")
 
     cmp.setup({
-      -- completion = {
-      --   autocomplete = false,
-      -- },
+      completion = {
+        autocomplete = false,
+      },
 
       mapping = cmp.mapping.preset.insert({
         -- Manually trigger completion
